@@ -69,12 +69,9 @@
            straight removing things from the dom can mess up angular) */
           elm.replaceWith('<div></div>');
 
-          //Decorate infoWindow.open to $compile contents before opening
-          var _open = infoWindow.open;
-          infoWindow.open = function open(a1, a2, a3, a4, a5, a6) {
-            $compile(elm.contents())(scope);
-            _open.call(infoWindow, a1, a2, a3, a4, a5, a6);
-          };
+          /* Need to compile once to make sure ng-clicks are hoooked up properly.
+           Don't compile more than once though, because that messes up ng-repeats! */
+          $compile(elm.contents())(scope);
         }
       };
     }]);
